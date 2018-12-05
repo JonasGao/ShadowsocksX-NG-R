@@ -20,6 +20,8 @@ class Subscribe: NSObject{
     
     var profileMgr: ServerProfileManager!
     
+    var manager: SessionManager!
+    
     init(initUrlString:String, initGroupName: String, initToken: String, initMaxCount: Int){
         super.init()
         subscribeFeed = initUrlString
@@ -29,6 +31,8 @@ class Subscribe: NSObject{
         setMaxCount(initMaxCount: initMaxCount)
         setGroupName(newGroupName: initGroupName)
         profileMgr = ServerProfileManager.instance
+        
+        manager = SessionManager(configuration: URLSessionConfiguration.ephemeral)
     }
     func getFeed() -> String{
         return subscribeFeed
@@ -101,7 +105,7 @@ class Subscribe: NSObject{
             "User-Agent": "ShadowsocksX-NG-R " + (getLocalInfo()["CFBundleShortVersionString"] as! String) + " Version " + (getLocalInfo()["CFBundleVersion"] as! String)
         ]
         
-        Alamofire.request(url, headers: headers)
+        manager.request(url, headers: headers)
             .responseString{
                 response in
                 if response.result.isSuccess {

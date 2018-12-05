@@ -77,7 +77,7 @@ void ScanQRCodeOnScreen() {
 }
 
 NSString* decode64(NSString* str){
-    
+    str = [str stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     str = [str stringByReplacingOccurrencesOfString:@"-" withString:@"+"];
     str = [str stringByReplacingOccurrencesOfString:@"_" withString:@"/"];
     if(str.length%4){

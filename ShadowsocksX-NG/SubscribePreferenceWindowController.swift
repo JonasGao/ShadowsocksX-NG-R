@@ -147,11 +147,11 @@ class SubscribePreferenceWindowController: NSWindowController
         , row: Int) -> Any? {
         
         let title = getDataAtRow(row)
-        
-        if convertFromNSUserInterfaceItemIdentifier((tableColumn?.identifier)!) == "main" {
+        let identifier = (tableColumn?.identifier)!
+        if convertFromNSUserInterfaceItemIdentifier(identifier) == "main" {
             if title != "" {return title}
             else {return "S"}
-        } else if convertFromNSUserInterfaceItemIdentifier(tableColumn?.identifier ?? <#default value#>) == "status" {
+        } else if convertFromNSUserInterfaceItemIdentifier(identifier) == "status" {
             return NSImage(named: "menu_icon")
         }
         return ""
@@ -177,14 +177,8 @@ class SubscribePreferenceWindowController: NSWindowController
         , row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
         if let mgr = sbMgr {
             var oldIndexes = [Int]()
-            
-            
-            info.enumerateDraggingItems(options: [], for: tableView, classes: [NSPasteboardItem.self], searchOptions: [:]) {,<#arg#>,<#arg#> ,<#arg#>,<#arg#> ,<#arg#>,<#arg#> ,<#arg#>,<#arg#> ,<#arg#>,<#arg#> ,<#arg#>,<#arg#> ,<#arg#>,<#arg#>
-                
-                
-                
-                
-                if let str = ($0.item as! NSPasteboardItem).string(forType: convertToNSPasteboardPasteboardType(self.tableViewDragType)), let index = Int(str) {
+            info.enumerateDraggingItems(options: [], for: tableView, classes: [NSPasteboardItem.self], searchOptions: [:]) { (i, _, _) in
+                if let str = (i.item as! NSPasteboardItem).string(forType: convertToNSPasteboardPasteboardType(self.tableViewDragType)), let index = Int(str) {
                     oldIndexes.append(index)
                 }
             }
